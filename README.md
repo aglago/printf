@@ -1,5 +1,9 @@
-# Custom printf function Project - Team Idorenyin Ekop & Samuella Manye Aglago
+# Custom `printf` function - ALX Project
+## Team Members
+- Samuel Idorenyin Ekop (slack: Idorenyin Ekop)
+- Samuella Manye Aglago (slack: Ami Aglago)
 
+## Table of Content
 + [Description](#description)
 + [Prototype](#prototype)
 + [Return Value](#return-value)
