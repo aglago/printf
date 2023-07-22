@@ -1,4 +1,4 @@
-# Custom printf function Project - Team Edorenyin Ekop & Samuella Manye Aglago
+# Custom printf function Project - Team Idorenyin Ekop & Samuella Manye Aglago
 
 + [Description](#description)
 + [Prototype](#prototype)
