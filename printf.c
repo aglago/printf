@@ -8,7 +8,7 @@
 
 int _printf(const char *format, ...)
 {
-	int i, j, k, tlen, clen, slen;
+	int i, j, tlen, clen, slen;
 	char *temp, *print;
 	char t;
 	va_list arg;
@@ -18,54 +18,44 @@ int _printf(const char *format, ...)
 	va_start(arg, format);
 	for (i = 0, slen = 0; i < clen; i++)
 	{
-		switch (format[i])
+		if ((format[i] == '%'))
 		{
-			case '%':
-				switch (format[i + 1])
-				{
-					case 's':
-					temp = va_arg(arg, char *);
-					slen += _strlen(temp);
-					i += 1;
-					break;
-					default:
-						break;
-				} break;
-			default:
-				break;
+			i++;
+			if (format[i] == 's')
+			{
+				temp = va_arg(arg, char *);
+				slen += _strlen(temp);
+				i += 1;
+			}
 		}
 	}
 	tlen += slen;
 	va_end(arg);
 	va_start(arg, format);
 	print = malloc(sizeof(char) * tlen + 1);
-	for (i = 0, j = 0, k = 0; i < tlen; i++, j++)
+	for (i = 0, j = 0; i < tlen; i++, j++)
 	{
-		switch (format[j])
+		if (format[j] == '%')
 		{
-			case '%':
-				switch (format[j + 1])
-				{
-					case 's':
-						temp = va_arg(arg, char *);
-						i = fill_array(temp, print, i, &j);
-						break;
-					case 'c':
-						t = va_arg(arg, int);
-						print[i] = t;
-						i++;
-						j += 2;
-						break;
-					default:
-						break;
-				}
+			if (format[j + 1] == 's')
+			{
+				temp = va_arg(arg, char *);
+				i = fill_array(temp, print, i, &j);
+			}
+			else if (format[j + 1] == 'c')
+			{
+				t = va_arg(arg, int);
+				print[i] = t;
+				i++;
+				j += 2;
+			}
+			else
 				print[i] = format[j];
-				break;
-			default:
-				print[i] = format[j];
-				break;
 		}
+		print[i] = format[j];
 	}
+
+	va_end(arg);
 	print[tlen] = '\0';
 	write(1, print, tlen);
 	free(print);
@@ -127,9 +117,18 @@ int _strlen(const char *s)
 	return (i);
 }
 
+/**
+ * fill_array - the things i do for betty
+ * @src: source array
+ * @dest: destination array
+ * @pstn: original i
+ * @push: increment j
+ * Return: new i
+*/
 int fill_array(char *src, char *dest, int pstn, int *push)
 {
 	int i;
+
 	i = 0;
 	for (i = 0; src[i] != '\0'; i++, pstn++)
 		dest[pstn] = src[i];
