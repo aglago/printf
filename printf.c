@@ -8,9 +8,8 @@
 
 int _printf(const char *format, ...)
 {
-	int i, j, tlen, clen, slen;
+	int i, tlen, clen, slen;
 	char *temp, *print;
-	char t;
 	va_list arg;
 
 	clen = _strlen(format);
@@ -33,28 +32,7 @@ int _printf(const char *format, ...)
 	va_end(arg);
 	va_start(arg, format);
 	print = malloc(sizeof(char) * tlen + 1);
-	for (i = 0, j = 0; i < tlen; i++, j++)
-	{
-		if (format[j] == '%')
-		{
-			if (format[j + 1] == 's')
-			{
-				temp = va_arg(arg, char *);
-				i = fill_array(temp, print, i, &j);
-			}
-			else if (format[j + 1] == 'c')
-			{
-				t = va_arg(arg, int);
-				print[i] = t;
-				i++;
-				j += 2;
-			}
-			else
-				print[i] = format[j];
-		}
-		print[i] = format[j];
-	}
-
+	fill(arg, format, print, tlen);
 	va_end(arg);
 	print[tlen] = '\0';
 	write(1, print, tlen);
@@ -118,20 +96,39 @@ int _strlen(const char *s)
 }
 
 /**
- * fill_array - the things i do for betty
- * @src: source array
+ * fill - Expands our formatted array
+ * @args: varaibale list of array
+ * @src: format array
  * @dest: destination array
- * @pstn: original i
- * @push: increment j
- * Return: new i
-*/
-int fill_array(char *src, char *dest, int pstn, int *push)
-{
-	int i;
+ * @len: length of expanded array
+ */
 
-	i = 0;
-	for (i = 0; src[i] != '\0'; i++, pstn++)
-		dest[pstn] = src[i];
-	*push += 2;
-	return (pstn);
+void fill(va_list args, const char *src, char *dest, int len)
+{
+	int i, j, k;
+	char *tmp, t;
+
+	for (i = 0, j = 0; i < len; i++, j++)
+	{
+		if (src[j] == '%')
+		{
+			if (src[j + 1] == 's')
+			{
+				tmp = va_arg(args, char *);
+				for (k = 0; tmp[k] != '\0'; i++, k++)
+					dest[i] = tmp[k];
+				j += 2;
+			}
+			else if (src[j + 1] == 'c')
+			{
+				t = va_arg(args, int);
+				dest[i] = t;
+				i++;
+				j += 2;
+			}
+			else
+				dest[i] = src[j];
+		}
+		dest[i] = src[j];
+	}
 }
