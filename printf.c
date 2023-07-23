@@ -9,9 +9,8 @@
 int _printf(const char *format, ...)
 {
 	int i, j, k, tlen, clen, slen;
-	const char *temp;
+	char *temp, *print;
 	char t;
-	char *print;
 	va_list arg;
 
 	clen = _strlen(format);
@@ -22,19 +21,16 @@ int _printf(const char *format, ...)
 		switch (format[i])
 		{
 			case '%':
-				switch (format [i + 1])
+				switch (format[i + 1])
 				{
 					case 's':
-						temp = va_arg(arg, char *);
-						if (temp == NULL)
-							break;
-						slen += _strlen(temp);
-						i+=1;
-						break;
+					temp = va_arg(arg, char *);
+					slen += _strlen(temp);
+					i += 1;
+					break;
 					default:
 						break;
-				}
-				break;
+				} break;
 			default:
 				break;
 		}
@@ -48,28 +44,19 @@ int _printf(const char *format, ...)
 		switch (format[j])
 		{
 			case '%':
-				switch (format [j + 1])
+				switch (format[j + 1])
 				{
 					case 's':
 						temp = va_arg(arg, char *);
-						while (temp[k])
-						{
-							print[i] = temp[k];
-							k++;
-							i++;
-						}
-						j += 2;
+						i = fill_array(temp, print, i, &j);
 						break;
 					case 'c':
 						t = va_arg(arg, int);
 						print[i] = t;
 						i++;
-						j+= 2;
+						j += 2;
 						break;
 					default:
-						print[i] = format[j];
-						i++;
-						j++;
 						break;
 				}
 				print[i] = format[j];
@@ -82,7 +69,7 @@ int _printf(const char *format, ...)
 	print[tlen] = '\0';
 	write(1, print, tlen);
 	free(print);
-	return(tlen);
+	return (tlen);
 }
 
 
@@ -90,7 +77,8 @@ int _printf(const char *format, ...)
  * _strclen - gets length of sting constant alone
  * @len: length of format string
  * @c: format string
- */
+ * Return: length of string constant
+*/
 
 int _strclen(int *len, const char *c)
 {
@@ -104,11 +92,11 @@ int _strclen(int *len, const char *c)
 			switch (c[i + 1])
 			{
 			case 'c':
-				i+=1;
-				true_len++;	
+				i += 1;
+				true_len++;
 				break;
 			case 's':
-				i+=1;
+				i += 1;
 				break;
 			default:
 				true_len++;
@@ -135,6 +123,16 @@ int _strlen(const char *s)
 
 	i = 0;
 	while (s[i] != '\0')
-	i++;
+		i++;
 	return (i);
+}
+
+int fill_array(char *src, char *dest, int pstn, int *push)
+{
+	int i;
+	i = 0;
+	for (i = 0; src[i] != '\0'; i++, pstn++)
+		dest[pstn] = src[i];
+	*push += 2;
+	return (pstn);
 }

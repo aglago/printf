@@ -8,5 +8,6 @@
 int _strlen(const char *s);
 int _strclen(int *clen, const char *c);
 int _printf(const char *format, ...);
+int fill_array(char *src, char *dest, int pstn, int *push);
 
 #endif
