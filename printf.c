@@ -17,9 +17,17 @@ int _printf(const char *format, ...)
 	va_start(arg, format);
 	for (i = 0, slen = 0; i < clen; i++)
 	{
+		char t;
+
 		if ((format[i] == '%'))
 		{
 			i++;
+			if (format[i] == 'c')
+			{
+				t = va_arg(arg, int);
+				slen += _strlen(&t);
+				i++;
+			}
 			if (format[i] == 's')
 			{
 				temp = va_arg(arg, char *);
@@ -61,7 +69,6 @@ int _strclen(int *len, const char *c)
 			{
 			case 'c':
 				i += 1;
-				true_len++;
 				break;
 			case 's':
 				i += 1;
