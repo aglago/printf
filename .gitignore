@@ -1,0 +1,6 @@
+# Executables
+*.exe
+*.out
+# Temporary files
+*.swp
+*.gch
