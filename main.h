@@ -4,6 +4,7 @@
 /* header files */
 #include <stdio.h>
 #include <stdarg.h>
+#include <unistd.h>
 
 /* function prototypes */
 int _putchar(char c);
