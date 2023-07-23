@@ -51,7 +51,7 @@ int _printf(const char *format, ...)
 				switch (format [j + 1])
 				{
 					case 's':
-						temp = va_arg(arg, char *); /*_printf("Hi there, %s i like % %c", "Hello", 'u'); */
+						temp = va_arg(arg, char *);
 						while (temp[k])
 						{
 							print[i] = temp[k];
@@ -68,6 +68,8 @@ int _printf(const char *format, ...)
 						break;
 					default:
 						print[i] = format[j];
+						i++;
+						j++;
 						break;
 				}
 				print[i] = format[j];
