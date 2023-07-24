@@ -135,6 +135,13 @@ void fill(va_list args, const char *src, char *dest, int len)
 	}
 }
 
+/**
+ * format_length - runs through the variable arguments
+ * @args: argument list
+ * @format: string
+ * @len: length of format constant
+ * Return: lemgth of char * in args
+ */
 int format_length(va_list args, const char *format, int len)
 {
 	int i, slen;
@@ -165,3 +172,4 @@ int format_length(va_list args, const char *format, int len)
 	}
 	return (slen);
 }
+
