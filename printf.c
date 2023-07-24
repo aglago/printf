@@ -1,68 +1,84 @@
 #include "main.h"
-#include <stdio.h>
-#include <string.h>
+
+/**
+ * _printf - prints formatted input to stdout
+ * @format: string
+ * Return: no of bytes printed
+ */
 
 int _printf(const char *format, ...)
 {
-	int i, err, byte;
+	int err, byte;
 	va_list arg;
 
 	if (format == NULL)
 		return (-1);
 	byte = 0;
 	va_start(arg, format);
-	for (i = 0; format[i] != '\0'; i++)
-	{
-		if (format[i] == '%')
-		{
-			err = formatting(&arg, &format[++i], &byte, &i);	
-			if (err == -2)
-				return (err);
-		}
-		write(1, &format[i], 1);
-		byte += 1;
-	}
-
+	err = formatting(arg, format, &byte);
+		if (err == -2)
+			return (err);
 	va_end(arg);
 	return (byte);
 }
 
-int formatting(va_list *args, const char *format, int *len, int *i)
+/**
+ * formatting - handles the printing
+ * @args: variable argument list
+ * @format: format string
+ * @len: address of total byte
+ * Return: probable error message
+ */
+
+int formatting(va_list args, const char *format, int *len)
 {
-	int slen, n;
+	int i, n, slen = 0;
 	char t, *tmp;
 
-	slen = 0;
-	if (*format == 'c')
+	for (i = 0; format[i] != '\0'; i++)
 	{
-		t = (char) va_arg(args, int);
-		write(1, &t, 1);
-		*i += 1;
+		if (format[i] == '%')
+		{
+			i++;
+			if (format[i] == 'c')
+			{
+				t = (char) va_arg(args, int);
+				write(1, &t, 1);
+				i += 1;
+				*len += 1;
+			}
+			else if (format[i] == 's')
+			{
+				tmp = va_arg(args, char *);
+				if (tmp == NULL)
+					return (-2);
+				slen = _strlen(tmp);
+				write(1, tmp, slen);
+				i += 1;
+				*len += slen;
+			}
+			else if (format[i] == 'd' || format[i] == 'i')
+			{
+				n = va_arg(args, int);
+				tmp = int_formatting(n);
+				slen = _strlen(tmp);
+				write(1, tmp, slen);
+				i += 1;
+				*len += slen;
+				free(tmp);
+			}
+		}
+		write(1, &format[i], 1);
 		*len += 1;
 	}
-	else if (*format == 's')
-	{
-		tmp = va_arg(args, char *);
-		if (tmp == NULL)
-			return (-2);
-		slen = _strlen(tmp);
-		write(1, tmp, slen);
-		*i += 1;
-		*len += slen;
-	}
-	else if (*format == 'd' || *format == 'i')
-	{
-		n = va_arg(args, int);
-		tmp = int_formatting(n);
-		slen = _strlen(tmp);
-		write(1, tmp, slen);
-		*i += 1;
-		*len += slen;
-		free(tmp);
-	}
-	return (0);
+		return (0);
 }
 
+/**
+ * _strlen - gets the length of a string
+ * @s: string
+ * Return: calculated length
+ */
 int _strlen(char *s)
 {
 	int i;
@@ -72,6 +88,12 @@ int _strlen(char *s)
 		i++;
 	return (i);
 }
+
+/**
+ * int_formatting - converts int to printable format
+ * @n: int
+ * Return: int as a string of chars
+ */
 
 char *int_formatting(int n)
 {
