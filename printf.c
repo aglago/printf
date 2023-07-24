@@ -1,184 +1,93 @@
 #include "main.h"
 
-/**
- * _printf - writes chars and strings to stdout
- * @format: string constant and formatting to print
- * Return: total bytes printed
-*/
-
 int _printf(const char *format, ...)
 {
-	int tlen, clen, slen;
-	char *print;
+	int err, byte;
 	va_list arg;
 
 	if (format == NULL)
 		return (-1);
-	clen = _strclen(0, format, 'c');
-	tlen = _strclen(clen, format, 't');
+	byte = 0;
 	va_start(arg, format);
-	slen = format_length(arg, format, clen);
-	if (slen == -1)
-		return (-1);
-	tlen += slen;
+	err = formatting(arg, format, &byte);
+	if (err == -2)
+		return (err);
 	va_end(arg);
-	va_start(arg, format);
-	print = malloc(sizeof(char) * tlen + 1);
-	fill(arg, format, print, tlen);
-	va_end(arg);
-	print[tlen] = '\0';
-	write(1, print, tlen);
-	free(print);
-	return (tlen);
+	return (byte);
 }
 
-
-/**
- * _strclen - gets length of sting constant alone
- * @len: length of format string
- * @c: format string
- * Return: length of string constant
-*/
-
-int _strclen(int len, const char *s,char type)
+int formatting(va_list args, const char *format, int *len)
 {
-	int i, true_len;
+	int i, slen, n;
 
-	if (type == 'c')
+	for (i = 0; format[i] != '\0'; i++)
 	{
-		while (s[i] != '\0')
-			i++;
-		return (i);
-	}
-	else
-	{
-	for (i = 0, true_len = 0; i < len; i++)
-	{
-		if (s[i] == '%')
+		char t, *tmp;
+		if (format[i] == '%')
 		{
-			switch (s[i + 1])
+			switch (format[++i])
 			{
-			case 'c':
-				i++;
-				true_len++;
-				break;
-			case 's':
-				i++;
-				break;
-			case '%':
-				i++;
-				true_len++;
-				break;
-			case 'd':
-				i++;
-				break;
-			default:
-				true_len++;
-				break;
+				case '%':
+					break;
+				case 'c':
+					t = va_arg(args, int);
+					write(1, &t, 1);
+					i++;
+					*len += 1;
+					break;
+				case 's':
+					tmp = va_arg(args, char *);
+					if (tmp == NULL)
+						return (-2);
+					slen = _strlen(tmp);
+					write(1, tmp, slen);
+					i++;
+					*len += slen;
+					break;
+				case 'd':
+					n = va_arg(args, int);
+					tmp = int_formatting(n);
+					slen = _strlen(tmp);
+					write (1, tmp, slen);
+					i++;
+					*len += slen;
+					break;
+				default:
+					break;
 			}
 		}
-		else
-			true_len++;
+		write(1, &format[i], 1);
+		*len += 1;
 	}
-	}
-	return (true_len);
+	return (0);
 }
-/**
- * _strlen - Returns the length of a string
- * @s: string
- * Return: length
- */
 
-int _strlen(const char *s)
+int _strlen(char *s)
 {
 	int i;
 
-	i = 0;
 	while (s[i] != '\0')
 		i++;
 	return (i);
 }
 
-/**
- * fill - Expands our formatted array
- * @args: varaibale list of array
- * @src: format array
- * @dest: destination array
- * @len: length of expanded array
- */
-
-void fill(va_list args, const char *src, char *dest, int len)
+char *int_formatting(int n)
 {
-	int i, j, k;
-	char *tmp, t;
+	int i, d = 0;
+	char *number;
 
-	for (i = 0, j = 0; i < len; i++, j++)
+	i = n;
+	while (i > 0)
 	{
-		if (src[j] == '%')
-		{
-			if (src[j + 1] == 's')
-			{
-				tmp = va_arg(args, char *);
-				for (k = 0; tmp[k] != '\0'; i++, k++)
-					dest[i] = tmp[k];
-				j += 2;
-			}
-			else if (src[j + 1] == 'c')
-			{
-				t = va_arg(args, int);
-				dest[i] = t;
-				i++;
-				j += 2;
-			}
-			else if (src[j + 1] == '%')
-			{
-				dest[i] = '%';
-				i++;
-				j += 2;
-			}
-			else
-				dest[i] = src[j];
-		}
-		dest[i] = src[j];
+		i /= 10;
+		d++;
 	}
-}
-
-/**
- * format_length - runs through the variable arguments
- * @args: argument list
- * @format: string
- * @len: length of format constant
- * Return: lemgth of char * in args
- */
-int format_length(va_list args, const char *format, int len)
-{
-	int i, slen;
-	char *tmp;
-
-	for (i = 0, slen = 0; i < len; i++)
+	number = malloc(sizeof(char) * d + 1);
+	for (i = d - 1; i >= 0; i--)
 	{
-		if ((format[i] == '%'))
-		{
-			if (format[i + 1] == 'c')
-			{
-				va_arg(args, int);
-				i += 2;
-			}
-			else if (format[i + 1] == 's')
-			{
-				tmp = va_arg(args, char *);
-				if (tmp == NULL)
-					return (-1);
-				slen += _strlen(tmp);
-				i += 2;
-			}
-			else if (format[i + 1] == '%')
-				i += 2;
-			else if (format[i + 1] == 'd')
-			{}
-
-		}
+		number[i] = '0' + (n % 10);
+		n /= 10;
 	}
-	return (slen);
+	number[d] = '\0';
+	return (number);	
 }
-
