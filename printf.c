@@ -9,30 +9,32 @@
 int _printf(const char *format, ...)
 {
 	int i, tlen, clen, slen;
-	char *temp, *print;
+	char t, *temp, *print;
 	va_list arg;
 
 	clen = _strlen(format);
-	tlen = _strclen(&clen, format);
+	tlen = _strclen(clen, format);
 	va_start(arg, format);
 	for (i = 0, slen = 0; i < clen; i++)
 	{
-		char t;
-
 		if ((format[i] == '%'))
 		{
-			i++;
-			if (format[i] == 'c')
+			if (format[i + 1] == 'c')
 			{
 				t = va_arg(arg, int);
-				slen += _strlen(&t);
-				i++;
+				slen++;
+				i += 2;
 			}
-			else if (format[i] == 's')
+			else if (format[i + 1] == 's')
 			{
 				temp = va_arg(arg, char *);
 				slen += _strlen(temp);
-				i++;
+				i += 2;
+			}
+			else if (format[i + 1] == '%')
+			{
+				slen++;
+				i += 2;
 			}
 		}
 	}
@@ -56,11 +58,11 @@ int _printf(const char *format, ...)
  * Return: length of string constant
 */
 
-int _strclen(int *len, const char *c)
+int _strclen(int len, const char *c)
 {
 	int i, true_len;
 
-	for (i = 0, true_len = 0; i < *len; i++)
+	for (i = 0, true_len = 0; i < len; i++)
 	{
 		switch (c[i])
 		{
@@ -68,10 +70,13 @@ int _strclen(int *len, const char *c)
 			switch (c[i + 1])
 			{
 			case 'c':
-				i += 1;
+				i++;
 				break;
 			case 's':
-				i += 1;
+				i++;
+				break;
+			case '%':
+				i++;
 				break;
 			default:
 				true_len++;
@@ -133,9 +138,17 @@ void fill(va_list args, const char *src, char *dest, int len)
 				i++;
 				j += 2;
 			}
+			else if (src[j + 1] == '%')
+			{
+				dest[i] = '%';
+				i++;
+				j += 2;
+			}
 			else
 				dest[i] = src[j];
 		}
 		dest[i] = src[j];
 	}
 }
+
+
