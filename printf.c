@@ -14,8 +14,8 @@ int _printf(const char *format, ...)
 
 	if (format == NULL)
 		return (-1);
-	clen = _strlen(format);
-	tlen = _strclen(clen, format);
+	clen = _strclen(0, format, 'c');
+	tlen = _strclen(clen, format, 't');
 	va_start(arg, format);
 	slen = format_length(arg, format, clen);
 	if (slen == -1)
@@ -40,16 +40,23 @@ int _printf(const char *format, ...)
  * Return: length of string constant
 */
 
-int _strclen(int len, const char *c)
+int _strclen(int len, const char *s,char type)
 {
 	int i, true_len;
 
+	if (type == 'c')
+	{
+		while (s[i] != '\0')
+			i++;
+		return (i);
+	}
+	else
+	{
 	for (i = 0, true_len = 0; i < len; i++)
 	{
-		switch (c[i])
+		if (s[i] == '%')
 		{
-		case '%':
-			switch (c[i + 1])
+			switch (s[i + 1])
 			{
 			case 'c':
 				i++;
@@ -62,19 +69,20 @@ int _strclen(int len, const char *c)
 				i++;
 				true_len++;
 				break;
+			case 'd':
+				i++;
+				break;
 			default:
 				true_len++;
 				break;
 			}
-			break;
-		default:
-			true_len++;
-			break;
 		}
+		else
+			true_len++;
+	}
 	}
 	return (true_len);
 }
-
 /**
  * _strlen - Returns the length of a string
  * @s: string
@@ -135,10 +143,17 @@ void fill(va_list args, const char *src, char *dest, int len)
 	}
 }
 
+/**
+ * format_length - runs through the variable arguments
+ * @args: argument list
+ * @format: string
+ * @len: length of format constant
+ * Return: lemgth of char * in args
+ */
 int format_length(va_list args, const char *format, int len)
 {
 	int i, slen;
-	char t, *tmp;
+	char *tmp;
 
 	for (i = 0, slen = 0; i < len; i++)
 	{
@@ -146,10 +161,8 @@ int format_length(va_list args, const char *format, int len)
 		{
 			if (format[i + 1] == 'c')
 			{
-				t = va_arg(args, int);
+				va_arg(args, int);
 				i += 2;
-				if (t == '\0')
-					continue;
 			}
 			else if (format[i + 1] == 's')
 			{
@@ -161,7 +174,11 @@ int format_length(va_list args, const char *format, int len)
 			}
 			else if (format[i + 1] == '%')
 				i += 2;
+			else if (format[i + 1] == 'd')
+			{}
+
 		}
 	}
 	return (slen);
 }
+

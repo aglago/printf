@@ -2,6 +2,6 @@
 
 int main(void)
 {
-	_printf("Hello %s\n", NULL);
+	_printf("Hello %c %s\n", 'u', "me");
 	return (0);
 }
