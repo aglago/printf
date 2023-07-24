@@ -9,37 +9,18 @@
 int _printf(const char *format, ...)
 {
 	int i, count = 0;
-	char parameter;
-	const char *par_str;
-
 	va_list parameter_list;
 
 	va_start(parameter_list, format);
 
+	if (format == NULL)
+		return (-1);
 	for (i = 0; format[i] != '\0'; i++)
 	{
 		if (format[i] == '%')
 		{
 			i++;
-			if (format[i] == 'c')
-			{
-				parameter = va_arg(parameter_list, int);
-				count += _putchar(parameter);
-			}
-			else if (format[i] == 's')
-			{
-				par_str = va_arg(parameter_list, const char*);
-				count += _puts(par_str);
-			}
-			else if (format[i] == '%')
-			{
-				count += _putchar('%');
-			}
-			else if (format[i] != 'c' || format[i] != 's' || format[i] != '%')
-			{
-				_putchar('%');
-				_putchar(format[i]);
-			}
+			specifiers(parameter_list, format, i, &count);
 		}
 		else
 		{
@@ -81,4 +62,82 @@ int _puts(const char *str)
 		_putchar(str[i]);
 	/* _putchar('\n'); */
 	return (i);
+}
+
+
+/**
+ * specifiers - handles format specifiers of out custom printf
+ * @parameter_list: parameter list
+ * @format: format string
+ * @count: return value tracking
+ */
+void specifiers(va_list parameter_list, const char* format, int i, int *count)
+{
+	char parameter;
+	const char* par_str;
+	int par_int;
+
+	switch(format[i])
+	{
+		case 'c':
+			parameter = va_arg(parameter_list, int);
+			(*count) += _putchar(parameter);
+			break;
+		case 's':
+			par_str = va_arg(parameter_list, const char*);
+			(*count) += _puts(par_str);
+			break;
+		case '%':
+			(*count) += _putchar('%');
+			break;
+		case 'd':
+			par_int = va_arg(parameter_list, int);
+			(*count) += print_num(par_int);
+			break;
+		case 'i':
+			par_int = va_arg(parameter_list, int);
+			(*count) += print_num(par_int);
+			break;
+		default:
+			(*count) += _putchar('%');
+			(*count) += _putchar(format[i]);
+	}
+}
+
+
+/**
+ * print_num - prints integers
+ * @n: number to print
+ * Return: number of numbers printed
+ */
+int print_num(int n)
+{
+	int i, count = 0;
+	char n_arr[20]; /* up to 20 digits */
+
+	if (n < 0)
+	{
+		count += _putchar('-');
+		n = -n;
+	}
+
+	if (n == 0)
+	{
+		count += _putchar('0');
+		return (count);
+	}
+
+	i = 0;
+	while (n > 0)
+	{
+		n_arr[i++] = '0' + n % 10;
+		n /= 10;
+	} /* printing digits into array */
+
+	count += i; /* taking size of array */
+
+	while (--i >= 0)
+		_putchar(n_arr[i]);
+
+	return (count);
 }
