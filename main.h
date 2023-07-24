@@ -1,14 +1,15 @@
 #ifndef MAIN_H
 #define MAIN_H
 
-#include <unistd.h>
-#include <stdlib.h>
+/* header files */
+#include <stdio.h>
 #include <stdarg.h>
+#include <unistd.h>
 
-int _strlen(const char *s);
-int _strclen(int len, const char *c);
+/* function prototypes */
+int _putchar(char c);
 int _printf(const char *format, ...);
-void fill(va_list args, const char *src, char *dest, int len);
-int format_length(va_list args, const char *format, int len);
-
+int _puts(const char *str);
+int print_num(int n);
+void specifiers(va_list parameter_list, const char *format, int i, int *count);
 #endif
