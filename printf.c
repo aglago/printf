@@ -12,30 +12,14 @@ int _printf(const char *format, ...)
 	char t, *temp, *print;
 	va_list arg;
 
+	if (format == NULL)
+		return (0);
 	clen = _strlen(format);
 	tlen = _strclen(clen, format);
 	va_start(arg, format);
-	for (i = 0, slen = 0; i < clen; i++)
-	{
-		if ((format[i] == '%'))
-		{
-			if (format[i + 1] == 'c')
-			{
-				t = va_arg(arg, int);
-				i += 2;
-				if (t == '\0')
-					continue;
-			}
-			else if (format[i + 1] == 's')
-			{
-				temp = va_arg(arg, char *);
-				slen += _strlen(temp);
-				i += 2;
-			}
-			else if (format[i + 1] == '%')
-				i += 2;
-		}
-	}
+	slen = format_length(arg, format, clen);
+	if (slen == -1)
+		return (0);
 	tlen += slen;
 	va_end(arg);
 	va_start(arg, format);
@@ -151,3 +135,33 @@ void fill(va_list args, const char *src, char *dest, int len)
 	}
 }
 
+int format_length(va_list args, const char *format, int len)
+{
+	int i, slen;
+	char t, *tmp;
+
+	for (i = 0, slen = 0; i < len; i++)
+	{
+		if ((format[i] == '%'))
+		{
+			if (format[i + 1] == 'c')
+			{
+				t = va_arg(args, int);
+				i += 2;
+				if (t == '\0')
+					continue;
+			}
+			else if (format[i + 1] == 's')
+			{
+				tmp = va_arg(args, char *);
+				if (tmp == NULL)
+					return (-1);
+				slen += _strlen(tmp);
+				i += 2;
+			}
+			else if (format[i + 1] == '%')
+				i += 2;
+		}
+	}
+	return (slen);
+}
