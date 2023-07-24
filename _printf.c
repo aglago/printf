@@ -71,13 +71,13 @@ int _puts(const char *str)
  * @format: format string
  * @count: return value tracking
  */
-void specifiers(va_list parameter_list, const char* format, int i, int *count)
+void specifiers(va_list parameter_list, const char *format, int i, int *count)
 {
 	char parameter;
-	const char* par_str;
+	const char *par_str;
 	int par_int;
 
-	switch(format[i])
+	switch (format[i])
 	{
 		case 'c':
 			parameter = va_arg(parameter_list, int);
