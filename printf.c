@@ -22,8 +22,9 @@ int _printf(const char *format, ...)
 			if (format[i + 1] == 'c')
 			{
 				t = va_arg(arg, int);
-				slen += _strlen(&t);
 				i += 2;
+				if (t == '\0')
+					continue;
 			}
 			else if (format[i + 1] == 's')
 			{
@@ -32,10 +33,7 @@ int _printf(const char *format, ...)
 				i += 2;
 			}
 			else if (format[i + 1] == '%')
-			{
-				slen++;
 				i += 2;
-			}
 		}
 	}
 	tlen += slen;
@@ -71,12 +69,14 @@ int _strclen(int len, const char *c)
 			{
 			case 'c':
 				i++;
+				true_len++;
 				break;
 			case 's':
 				i++;
 				break;
 			case '%':
 				i++;
+				true_len++;
 				break;
 			default:
 				true_len++;
