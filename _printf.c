@@ -73,9 +73,8 @@ int _puts(const char *str)
  * @parameter_list: parameter list
  * @format: format string
  * @count: return value tracking
- * Return: possible exit code, 0 if normal
  */
-int specifiers(va_list parameter_list, const char *format, int i, int *count)
+void specifiers(va_list parameter_list, const char *format, int i, int *count)
 {
 	char parameter;
 	const char *par_str;
@@ -90,7 +89,7 @@ int specifiers(va_list parameter_list, const char *format, int i, int *count)
 		case 's':
 			par_str = va_arg(parameter_list, const char*);
 			if (par_str == NULL)
-				return (-1);
+				return;
 			(*count) += _puts(par_str);
 			break;
 		case '%':
