@@ -8,7 +8,7 @@
  */
 int _printf(const char *format, ...)
 {
-	int i, null_count, count = 0;
+	int i, count = 0;
 	va_list parameter_list;
 
 	va_start(parameter_list, format);
@@ -20,9 +20,7 @@ int _printf(const char *format, ...)
 		if (format[i] == '%')
 		{
 			i++;
-			null_count = specifiers(parameter_list, format, i, &count);
-			if (null_count == -1)
-				return (-1);
+			specifiers(parameter_list, format, i, &count);
 		}
 		else
 		{
@@ -107,7 +105,6 @@ void specifiers(va_list parameter_list, const char *format, int i, int *count)
 			(*count) += _putchar('%');
 			(*count) += _putchar(format[i]);
 	}
-	return (0);
 }
 
 
