@@ -8,18 +8,18 @@
 
 int _printf(const char *format, ...)
 {
-	int i, tlen, clen, slen;
-	char t, *temp, *print;
+	int tlen, clen, slen;
+	char *print;
 	va_list arg;
 
 	if (format == NULL)
-		return (0);
+		return (-1);
 	clen = _strlen(format);
 	tlen = _strclen(clen, format);
 	va_start(arg, format);
 	slen = format_length(arg, format, clen);
 	if (slen == -1)
-		return (0);
+		return (-1);
 	tlen += slen;
 	va_end(arg);
 	va_start(arg, format);
