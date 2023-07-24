@@ -11,5 +11,5 @@ int _putchar(char c);
 int _printf(const char *format, ...);
 int _puts(const char *str);
 int print_num(int n);
-int specifiers(va_list parameter_list, const char *format, int i, int *count);
+void specifiers(va_list parameter_list, const char *format, int i, int *count);
 #endif
