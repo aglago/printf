@@ -28,11 +28,11 @@ int _printf(const char *format, ...)
 				slen += _strlen(&t);
 				i++;
 			}
-			if (format[i] == 's')
+			else if (format[i] == 's')
 			{
 				temp = va_arg(arg, char *);
 				slen += _strlen(temp);
-				i += 1;
+				i++;
 			}
 		}
 	}
