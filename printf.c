@@ -22,7 +22,7 @@ int _printf(const char *format, ...)
 			if (format[i + 1] == 'c')
 			{
 				t = va_arg(arg, int);
-				slen++;
+				slen += _strlen(&t);
 				i += 2;
 			}
 			else if (format[i + 1] == 's')
@@ -150,5 +150,4 @@ void fill(va_list args, const char *src, char *dest, int len)
 		dest[i] = src[j];
 	}
 }
-
 
