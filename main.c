@@ -40,6 +40,6 @@ int main(void)
     printf("Len:[%d]\n", len2);
     _printf("Unknown:[%r]\n");
 
-	_printf("%d\n", int_formatting(34698767));
+	_printf("%s\n", int_formatting(34698767));
     return (0);
 }

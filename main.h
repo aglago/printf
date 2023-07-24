@@ -7,7 +7,7 @@
 
 int _printf(const char *format, ...);
 int _strlen(char *s);
-int formatting(va_list args, const char *format, int *len);
+int formatting(va_list *args, const char *format, int *len, int *i);
 char *int_formatting(int n);
 
 #endif
