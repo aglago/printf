@@ -8,7 +8,7 @@
  */
 int _printf(const char *format, ...)
 {
-	int i, count = 0;
+	int i, null_count, count = 0;
 	va_list parameter_list;
 
 	va_start(parameter_list, format);
@@ -20,7 +20,9 @@ int _printf(const char *format, ...)
 		if (format[i] == '%')
 		{
 			i++;
-			specifiers(parameter_list, format, i, &count);
+			null_count = specifiers(parameter_list, format, i, &count);
+			if (null_count == -1)
+				return (-1);
 		}
 		else
 		{
@@ -67,11 +69,13 @@ int _puts(const char *str)
 
 /**
  * specifiers - handles format specifiers of out custom printf
+ * @i: iterator
  * @parameter_list: parameter list
  * @format: format string
  * @count: return value tracking
+ * Return: possible exit code, 0 if normal
  */
-void specifiers(va_list parameter_list, const char *format, int i, int *count)
+int specifiers(va_list parameter_list, const char *format, int i, int *count)
 {
 	char parameter;
 	const char *par_str;
@@ -85,6 +89,8 @@ void specifiers(va_list parameter_list, const char *format, int i, int *count)
 			break;
 		case 's':
 			par_str = va_arg(parameter_list, const char*);
+			if (par_str == NULL)
+				return (-1);
 			(*count) += _puts(par_str);
 			break;
 		case '%':
@@ -102,6 +108,7 @@ void specifiers(va_list parameter_list, const char *format, int i, int *count)
 			(*count) += _putchar('%');
 			(*count) += _putchar(format[i]);
 	}
+	return (0);
 }
 
 
