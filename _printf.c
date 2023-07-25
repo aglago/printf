@@ -119,7 +119,15 @@ void specifiers(va_list parameter_list, const char *format, int i, int *count)
 int print_num(int n)
 {
 	int i, count = 0;
+	char *min_int;
 	char n_arr[20]; /* up to 20 digits */
+
+	if (n == -2147483648)
+	{
+		min_int = "-2147483648";
+		count += _puts(min_int);
+		return (count);
+	}
 
 	if (n < 0)
 	{
