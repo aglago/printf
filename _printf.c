@@ -22,8 +22,7 @@ int _printf(const char *format, ...)
 			i++;
 			if (format[i] == '\0')
 				return (-1);
-			else
-				specifiers(parameter_list, format, i, &count);
+			specifiers(parameter_list, format, i, &count);
 		}
 		else
 		{
