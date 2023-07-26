@@ -37,11 +37,12 @@ int morespec(va_list par, const char *fmt, int i, int *count)
 
 int _revputs(const char *str)
 {
-	int i = 0;
+	int len, i = 0;
 
 	while (str[i] != '\0')
 		i++;
+	len = i;
 	for (i -= 1; i >= 0; i--)
 		_putchar(str[i]);
-	return (i);
+	return (len);
 }
