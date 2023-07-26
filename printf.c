@@ -67,6 +67,8 @@ int formatting(va_list args, const char *format, int *len)
 				*len += slen;
 				free(tmp);
 			}
+			if (format[i] == '\0')
+				break;
 		}
 		write(1, &format[i], 1);
 		*len += 1;
@@ -104,7 +106,13 @@ char *int_formatting(int n)
 	if (n < 0)
 	{
 		if (n == INT_MIN)
-			return ("-2147483648");
+		{
+			number = malloc(sizeof(char) * 12);
+			if (number == NULL)
+				return (NULL);
+			_strcpy(number, "-2147483648");
+			return (number);
+		}
 		isnegative = 1;
 		n *= -1;
 	}

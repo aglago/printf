@@ -10,18 +10,7 @@
  */
 int main(void)
 {
-	int len, len2;
-	long int l = INT_MAX;
-
-	l += 1024;
-	len = _printf("%d", l);
-	len2 = printf("%d", l);
-	fflush(stdout);
-	if (len != len2)
-	{
-		printf("Lengths differ.\n");
-		fflush(stdout);
-		return (1);
-	}
+	_printf("%d == %i\n", 1024, 1024);
+	_printf("iddi%diddiiddi\n", 1024);
 	return (0);
 }
