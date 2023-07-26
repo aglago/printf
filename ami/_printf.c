@@ -20,6 +20,8 @@ int _printf(const char *format, ...)
 		if (format[i] == '%')
 		{
 			i++;
+			if (format[i] == '\0')
+				return (-1);
 			specifiers(parameter_list, format, i, &count);
 		}
 		else
@@ -76,7 +78,7 @@ void specifiers(va_list parameter_list, const char *format, int i, int *count)
 {
 	char parameter;
 	const char *par_str;
-	int par_int;
+	int par_int, status;
 
 	switch (format[i])
 	{
@@ -105,8 +107,12 @@ void specifiers(va_list parameter_list, const char *format, int i, int *count)
 			(*count) += print_num(par_int);
 			break;
 		default:
-			(*count) += _putchar('%');
-			(*count) += _putchar(format[i]);
+			status = (morespec(parameter_list, format, i, count) == 1) ? 1 : 0;
+			if (status == 0)
+			{
+				(*count) += _putchar('%');
+				(*count) += _putchar(format[i]);
+			}
 	}
 }
 
