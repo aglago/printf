@@ -3,6 +3,8 @@
 - Samuel Idorenyin Ekop (slack: Idorenyin Ekop)
 - Samuella Manye Aglago (slack: Ami Aglago)
 
+W
+
 ## Table of Content
 + [Description](#description)
 + [Prototype](#prototype)
