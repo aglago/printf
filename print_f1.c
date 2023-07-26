@@ -1,28 +1,47 @@
 #include "main.h"
 
 /**
- * _strcpy - copies a string
- * @dest: pointer to destination string
- * @src: pointer to source string
- * Return: destination string
- */
-
-void _strcpy(char *dest, char *src)
+ * morespec - extends the specifer function for more flags
+ * @i: iterator
+ * @par: parameter list
+ * @fmt: format string
+ * @count: return value tracking
+ * Return: 0 if no case matched; 1 if case matches
+*/
+int morespec(va_list par, const char *fmt, int i, int *count)
 {
-	int i, length;
+	const char *par_str;
 
-	for (i = 0, length = 0; src[i] != '\0'; i++)
-		length++;
-	for (i = 0; i <= length; i++)
-		dest[i] = src[i];
+	switch (fmt[i])
+	{
+		case 'r':
+			par_str = va_arg(par, char *);
+			if (par_str == NULL)
+			{
+				(*count) += _puts("(null)");
+				return (1);
+			}
+			(*count) += _revputs(par_str);
+			return (1);
+		default:
+			break;
+	}
+	return (0);
 }
 
-char *checknull(char *fmt)
+/**
+ * _revputs - prints string in reverse
+ * @str: pointer to array of characters (string)
+ * Return: number of characters printed
+ */
+
+int _revputs(const char *str)
 {
-	if (fmt == NULL)
-	{
-		fmt = malloc(sizeof(char) * 7);
-		_strcpy(fmt, "(null)");
-	}
-	return (fmt);
+	int i = 0;
+
+	while (str[i] != '\0')
+		i++;
+	for (i -= 1; i >= 0; i--)
+		_putchar(str[i]);
+	return (i);
 }
