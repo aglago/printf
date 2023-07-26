@@ -16,3 +16,13 @@ void _strcpy(char *dest, char *src)
 	for (i = 0; i <= length; i++)
 		dest[i] = src[i];
 }
+
+char *checknull(char *fmt)
+{
+	if (fmt == NULL)
+	{
+		fmt = malloc(sizeof(char) * 7);
+		_strcpy(fmt, "(null)");
+	}
+	return (fmt);
+}

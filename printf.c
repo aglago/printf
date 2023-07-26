@@ -50,8 +50,7 @@ int formatting(va_list args, const char *format, int *len)
 			else if (format[i] == 's')
 			{
 				tmp = va_arg(args, char *);
-				if (tmp == NULL)
-					return (-2);
+				tmp = checknull(tmp);
 				slen = _strlen(tmp);
 				write(1, tmp, slen);
 				i += 1;
@@ -133,4 +132,57 @@ char *int_formatting(int n)
 	}
 	number[d + isnegative] = '\0';
 	return (number);
+}
+
+#include "main.h"
+
+/**
+ * _strcpy - copies a string
+ * @dest: pointer to destination string
+ * @src: pointer to source string
+ * Return: destination string
+ */
+
+void _strcpy(char *dest, char *src)
+{
+	int i, length;
+
+	for (i = 0, length = 0; src[i] != '\0'; i++)
+		length++;
+	for (i = 0; i <= length; i++)
+		dest[i] = src[i];
+}
+
+char *checknull(char *fmt)
+{
+	if (fmt == NULL)
+	{
+		fmt = malloc(sizeof(char) * 7);
+		_strcpy(fmt, "(null)");
+	}
+	return (fmt);
+}
+#include <stdio.h>
+#include <stdlib.h>
+#include "main.h"
+
+/**
+ * main - Entry point
+ *
+ * Return: 0 on success, error code otherwise
+ */
+int main(void)
+{
+	int len, len2;
+
+	len = _printf("%s%c%c%c%s%%%s%c", "Loading ", '.', '.', '.', " 99", " Please wait", '\n');
+	len2 = printf("%s%c%c%c%s%%%s%c", "Loading ", '.', '.', '.', " 99", " Please wait", '\n');
+	fflush(stdout);
+	if (len != len2)
+	{
+		printf("Lengths differ.\n");
+		fflush(stdout);
+		return (1);
+	}
+	return (0);
 }

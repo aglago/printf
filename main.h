@@ -10,5 +10,6 @@ int _strlen(char *s);
 int formatting(va_list args, const char *format, int *len);
 char *int_formatting(int n);
 void _strcpy(char *dest, char *src);
+char *checknull(char *fmt);
 
 #endif
