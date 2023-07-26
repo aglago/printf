@@ -20,7 +20,10 @@ int _printf(const char *format, ...)
 		if (format[i] == '%')
 		{
 			i++;
-			specifiers(parameter_list, format, i, &count);
+			if (format[i] == '\0')
+				return (-1);
+			else
+				specifiers(parameter_list, format, i, &count);
 		}
 		else
 		{
