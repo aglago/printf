@@ -114,7 +114,7 @@ char *int_formatting(int n)
 	}
 	number = malloc(sizeof(char) * (d + isnegative + 1));
 	if (isnegative == 1)
-		number[i] = '-';
+		number[0] = '-';
 	for (i = d + isnegative - 1; i >= isnegative; i--)
 	{
 		number[i] = '0' + (n % 10);
