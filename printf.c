@@ -97,15 +97,18 @@ int _strlen(char *s)
 
 char *int_formatting(int n)
 {
-	int i, isnegative, d = 0;
+	int i, isnegative, d;
 	char *number;
 
 	isnegative = 0;
 	if (n < 0)
 	{
+		if (n == INT_MIN)
+			return ("-2147483648");
 		isnegative = 1;
 		n *= -1;
 	}
+	d = (n == 0) ? 1 : 0;
 	i = n;
 	while (i > 0)
 	{
