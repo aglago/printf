@@ -78,7 +78,7 @@ void specifiers(va_list parameter_list, const char *format, int i, int *count)
 {
 	char parameter;
 	const char *par_str;
-	int par_int;
+	int par_int, bin;
 
 	switch (format[i])
 	{
@@ -105,6 +105,10 @@ void specifiers(va_list parameter_list, const char *format, int i, int *count)
 		case 'i':
 			par_int = va_arg(parameter_list, int);
 			(*count) += print_num(par_int);
+			break;
+		case 'b':
+			bin = va_arg(parameter_list, int);
+			(*count) += print_binary(bin);
 			break;
 		default:
 			(*count) += _putchar('%');
