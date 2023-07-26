@@ -78,7 +78,7 @@ void specifiers(va_list parameter_list, const char *format, int i, int *count)
 {
 	char parameter;
 	const char *par_str;
-	int par_int, bin;
+	int par_int, bin, status;
 
 	switch (format[i])
 	{
@@ -111,8 +111,12 @@ void specifiers(va_list parameter_list, const char *format, int i, int *count)
 			(*count) += print_binary(bin);
 			break;
 		default:
-			(*count) += _putchar('%');
-			(*count) += _putchar(format[i]);
+			status = morespec(parameter_list, format, i, count);
+			if (status == 0)
+			{
+				(*count) += _putchar('%');
+				(*count) += _putchar(format[i]);
+			}
 	}
 }
 
@@ -161,3 +165,4 @@ int print_num(int n)
 
 	return (count);
 }
+
