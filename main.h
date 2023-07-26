@@ -12,5 +12,5 @@ int _printf(const char *format, ...);
 int _puts(const char *str);
 int print_num(int n);
 void specifiers(va_list parameter_list, const char *format, int i, int *count);
-void print_binary(unsigned int n);
+int print_binary(unsigned int n);
 #endif
