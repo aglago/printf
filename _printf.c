@@ -107,7 +107,7 @@ void specifiers(va_list parameter_list, const char *format, int i, int *count)
 			(*count) += print_num(par_int);
 			break;
 		default:
-			status = (morespec(parameter_list, format, i, count) == 1) ? 1 : 0;
+			status = morespec(parameter_list, format, i, count);
 			if (status == 0)
 			{
 				(*count) += _putchar('%');
