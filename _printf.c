@@ -22,7 +22,7 @@ int _printf(const char *format, ...)
 			i++;
 			if (format[i] == '\0')
 				return (-1);
-			specifiers(parameter_list, format, i, &count);
+			specifiers(parameter_list, format, &i, &count);
 		}
 		else
 		{
@@ -70,47 +70,49 @@ int _puts(const char *str)
 /**
  * specifiers - handles format specifiers of out custom printf
  * @i: iterator
- * @parameter_list: parameter list
+ * @par_list: parameter list
  * @format: format string
  * @count: return value tracking
  */
-void specifiers(va_list parameter_list, const char *format, int i, int *count)
+void specifiers(va_list par_list, const char *format, int *i, int *count)
 {
 	char parameter;
 	const char *par_str;
-	int par_int, bin, status;
+	int par_int, status;
 
-	switch (format[i])
+	switch (format[*i])
 	{
 		case 'c':
-			parameter = va_arg(parameter_list, int);
+			parameter = va_arg(par_list, int);
 			(*count) += _putchar(parameter);
 			break;
 		case 's':
-			par_str = va_arg(parameter_list, const char*);
+			par_str = va_arg(par_list, const char*);
 			print_null_str(par_str, count);
+			if (par_str == NULL)
+			{
+				(*count) += _puts("(null)");
+				return;
+			}
+			(*count) += _puts(par_str);
 			break;
 		case '%':
 			(*count) += _putchar('%');
 			break;
 		case 'd':
-			par_int = va_arg(parameter_list, int);
+			par_int = va_arg(par_list, int);
 			(*count) += print_num(par_int);
 			break;
 		case 'i':
-			par_int = va_arg(parameter_list, int);
+			par_int = va_arg(par_list, int);
 			(*count) += print_num(par_int);
 			break;
-		case 'b':
-			bin = va_arg(parameter_list, int);
-			(*count) += print_binary(bin);
-			break;
 		default:
-			status = morespec(parameter_list, format, i, count);
+			status = morespec(par_list, format, i, count);
 			if (status == 0)
 			{
 				(*count) += _putchar('%');
-				(*count) += _putchar(format[i]);
+				(*count) += _putchar(format[*i]);
 			}
 	}
 }
@@ -160,4 +162,3 @@ int print_num(int n)
 
 	return (count);
 }
-
