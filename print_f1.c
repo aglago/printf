@@ -91,7 +91,10 @@ void print_width_int(char c, int n, int *counter)
 	digits = (n == 0) ? 1 : 0;
 	copy = n;
 	if (copy < 0)
+	{
 		copy *= -1;
+		digits++;
+	}
 	while (copy > 0)
 	{
 		copy /= 10;
