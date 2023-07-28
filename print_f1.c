@@ -88,9 +88,13 @@ void print_width_int(char c, int n, int *counter)
 	int i, sp_len, width, copy, digits;
 
 	width = c - '0'; /* set c to an int */
+	digits = (n == 0) ? 1 : 0;
 	copy = n;
-	for (digits = 0; copy != 0; digits++)
+	while (copy > 0)
+	{
 		copy /= 10;
+		digits++;
+	}
 	if (digits >= width)
 		*counter += print_num(n);
 	else
@@ -98,6 +102,7 @@ void print_width_int(char c, int n, int *counter)
 		sp_len = width - digits;
 		for (i = 0; i < sp_len; i++)
 			_putchar(' ');
+		*counter += sp_len;
 		*counter += print_num(n);
 	}
 }

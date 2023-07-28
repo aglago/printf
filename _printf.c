@@ -9,9 +9,9 @@
 int _printf(const char *format, ...)
 {
 	int i, count = 0;
-	va_list parameter_list;
+	va_list par_list;
 
-	va_start(parameter_list, format);
+	va_start(par_list, format);
 
 	if (format == NULL)
 		return (-1);
@@ -22,14 +22,14 @@ int _printf(const char *format, ...)
 			i++;
 			if (format[i] == '\0')
 				return (-1);
-			specifiers(parameter_list, format, &i, &count);
+			specifiers(par_list, format, &i, &count);
 		}
 		else
 		{
 			count += _putchar(format[i]);
 		}
 	}
-	va_end(parameter_list);
+	va_end(par_list);
 	return (count);
 }
 
@@ -75,9 +75,8 @@ int _puts(const char *str)
  * @count: return value tracking
  */
 void specifiers(va_list par_list, const char *format, int *i, int *count)
-{
-	char parameter;
-	const char *par_str;
+{ 
+	char parameter, *par_str;
 	int par_int, status;
 
 	switch (format[*i])
@@ -87,14 +86,8 @@ void specifiers(va_list par_list, const char *format, int *i, int *count)
 			(*count) += _putchar(parameter);
 			break;
 		case 's':
-			par_str = va_arg(par_list, const char*);
+			par_str = (char *) va_arg(par_list, int *);
 			print_null_str(par_str, count);
-			if (par_str == NULL)
-			{
-				(*count) += _puts("(null)");
-				return;
-			}
-			(*count) += _puts(par_str);
 			break;
 		case '%':
 			(*count) += _putchar('%');
