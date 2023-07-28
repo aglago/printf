@@ -86,7 +86,7 @@ void specifiers(va_list par_list, const char *format, int *i, int *count)
 			(*count) += _putchar(parameter);
 			break;
 		case 's':
-			par_str = (char *) va_arg(par_list, int *);
+			par_str = va_arg(par_list, char *);
 			print_null_str(par_str, count);
 			break;
 		case '%':
