@@ -4,3 +4,5 @@
 # Temporary files
 *.swp
 *.gch
+# Test files
+test.c
