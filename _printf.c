@@ -122,7 +122,7 @@ int print_num(int n)
 	char *min_int;
 	char n_arr[20]; /* up to 20 digits */
 
-	if (n == -2147483648)
+	if (n == INT_MIN)
 	{
 		min_int = "-2147483648";
 		count += _puts(min_int);
