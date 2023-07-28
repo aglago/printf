@@ -75,7 +75,7 @@ int _puts(const char *str)
  * @count: return value tracking
  */
 void specifiers(va_list par_list, const char *format, int *i, int *count)
-{ 
+{
 	char parameter, *par_str;
 	int par_int, status;
 
