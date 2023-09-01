@@ -9,9 +9,15 @@
 int print_binary(unsigned int n)
 {
 	int count = 0;
+	int i = 0;
+	int bit = 0;
 
-	if (n > 1)
-		print_binary(n / 2);
-	count += _putchar('0' + n % 2);
+	/*binary representation has 22 characters*/
+	for (i = 21; i >= 0; i--)
+	{
+		bit = (n >> i) & 1;
+		count += _putchar('0' + bit);
+	}
+
 	return (count);
 }
