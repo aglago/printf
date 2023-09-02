@@ -7,7 +7,7 @@
  * @fmt: format string
  * @count: return value tracking
  * Return: 0 if no case matched; 1 if case matches
-*/
+ */
 int morespec(va_list par, const char *fmt, int *i, int *count)
 {
 	const char *par_str;
@@ -40,6 +40,22 @@ int morespec(va_list par, const char *fmt, int *i, int *count)
 			bin = va_arg(par, int);
 			(*count) += print_binary(bin);
 			return (1);
+		case 'u':
+			par_int = va_arg(par, unsigned int);
+			(*count) += print_unsigned(par_int);
+			return (1);
+		case 'o':
+			par_int = va_arg(par, unsigned int);
+			(*count) += print_octal(par_int);
+			return (1);
+		case 'x':
+			par_int = va_arg(par, unsigned int);
+			(*count) += print_hex(par_int, 0);
+			return (1);
+		case 'X':
+			par_int = va_arg(par, unsigned int);
+			(*count) += print_hex(par_int, 1);
+			return (1);
 		default:
 			break;
 	}
@@ -68,7 +84,7 @@ int _revputs(const char *str)
  * _isdigit - checks if a char is a number
  * @c: char
  * Return: 1 if true and 0 if false
-*/
+ */
 int _isdigit(char c)
 {
 	if (c >= '0' && c <= '9')
@@ -82,7 +98,7 @@ int _isdigit(char c)
  * @c: char containing width information
  * @n: int to print
  * @counter: address of the number of bytes counter
-*/
+ */
 void print_width_int(char c, int n, int *counter)
 {
 	int i, sp_len, width, copy, digits;
