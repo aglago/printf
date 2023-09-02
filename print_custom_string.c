@@ -9,7 +9,7 @@ int print_custom_string(const char *str)
 {
 	int count = 0;
 	int i = 0;
-	char first_digit, second_digit;
+	char first_digit, second_digit, hex_val;
 
 	for (; str[i] != '\0'; i++)
 	{
@@ -18,11 +18,12 @@ int print_custom_string(const char *str)
 			count += _putchar('\\');
 			count += _putchar('x');
 
-			first_digit = (str[i] / 16) + (str[i] / 16 < 10 ? '0' : 'A' - 10);
-			count += _putchar(first_digit);
+			hex_val = str[i];
+			first_digit = (hex_val >> 4) & 0xF;
+			second_digit = hex_val & 0xF;
 
-			second_digit = (str[i] % 16) + '0';
-			count += _putchar(second_digit);
+			count += _putchar((first_digit < 10) ? '0' + first_digit : 'A' + first_digit - 10);
+			count += _putchar((second_digit < 10) ? '0' + second_digit : 'A' + second_digit - 10);
 		}
 		else
 		{
