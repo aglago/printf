@@ -19,7 +19,13 @@ void print_width_int(char c, int n, int *counter);
 int _isdigit(char c);
 int print_binary(unsigned int n);
 void print_null_str(const char *par_str, int *count);
-int print_unsigned(unsigned int n);
+int print_unsignedd(unsigned int n);
 int print_octal(unsigned int n);
 int print_hex(unsigned int n, int uppercase);
+int u_specifier(va_list par, int *count);
+int r_specifier(va_list par, int *count);
+int b_specifier(va_list par, int *count);
+int o_specifier(va_list par, int *count);
+int x_specifier(va_list par, int *count);
+int X_specifier(va_list par, int *count);
 #endif

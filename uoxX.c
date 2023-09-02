@@ -1,11 +1,11 @@
 #include "main.h"
 
 /**
- * print_unsigned - prints unsigned
+ * print_unsignedd - prints unsigned
  * @n: parameter
  * Return: integer
  */
-int print_unsigned(unsigned int n)
+int print_unsignedd(unsigned int n)
 {
 	int count = 0;
 	int i = 0;
@@ -62,10 +62,12 @@ int print_octal(unsigned int n)
 	return (count);
 }
 
+
 /**
  * print_hex - prints to hexadecimal
  * @n: first parameter
  * @uppercase: second parameter
+ * Return: integer
  */
 int print_hex(unsigned int n, int uppercase)
 {
