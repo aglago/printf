@@ -90,8 +90,6 @@ int print_hex(unsigned int n, int uppercase)
 		else
 			hex[i++] = 'a' + digit - 10;
 		n /= 16;
-
-		count += i;
 	}
 
 	count += i;
