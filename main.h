@@ -29,4 +29,5 @@ int o_specifier(va_list par, int *count);
 int x_specifier(va_list par, int *count);
 int X_specifier(va_list par, int *count);
 int S_specifier(va_list par, int *count);
+int print_custom_string(const char *str);
 #endif
