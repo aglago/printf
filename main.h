@@ -19,5 +19,7 @@ void print_width_int(char c, int n, int *counter);
 int _isdigit(char c);
 int print_binary(unsigned int n);
 void print_null_str(const char *par_str, int *count);
-
+int print_unsgined(unsigned int n);
+int print_octal(unsigned int n);
+int print_hex(unsgined int n, int uppercase);
 #endif
