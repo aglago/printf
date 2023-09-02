@@ -71,6 +71,7 @@ int print_hex(unsigned int n, int uppercase)
 {
 	int count = 0;
 	int i = 0;
+	int digit = 0;
 	char hex[20];
 
 	if (n == 0)
